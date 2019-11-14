@@ -1,0 +1,24 @@
+version: "2.0"
+services:
+    flaskapp:
+        build: ./flaskapp
+        image: shinrl1/flaskapp
+        networks:
+            - app
+        depends_on:
+            - redis
+    nginx:
+        build: ./nginx
+        image: shinrl1/nginx
+        ports:
+            - 8080:80
+        networks:
+            - app
+        depends_on:
+            - flaskapp
+    redis:
+        image: redis:latest
+        networks:
+            - app
+networks:
+    app:
